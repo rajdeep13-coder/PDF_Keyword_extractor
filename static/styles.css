@@ -1,0 +1,42 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.form-group {
+    margin: 15px 0;
+}
+button {
+    background: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.results {
+    margin-top: 30px;
+}
+.keywords {
+    columns: 2;
+}
+.score {
+    color: #666;
+    float: right;
+}
+.summary {
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+.flash {
+    color: #dc3545;
+    margin: 10px 0;
+}

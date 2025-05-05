@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Keyword Extractor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>PDF Keyword Extractor</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="file" name="file" accept=".pdf" required>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="ocr"> Use OCR (for scanned PDFs)
+                </label>
+            </div>
+            <div class="form-group">
+                <label>Extraction Method:</label>
+                <input type="radio" name="method" value="frequency" checked> Frequency
+                <input type="radio" name="method" value="tfidf"> TF-IDF
+            </div>
+            <button type="submit">Process PDF</button>
+        </form>
+        {% if keywords %}
+        <div class="results">
+            <h2>Results for {{ filename }}</h2>
+            <div class="section">
+                <h3>Top Keywords</h3>
+                <ul class="keywords">
+                    {% for word, score in keywords %}
+                    <li>{{ word }} <span class="score">{{ "%.3f"|format(score) }}</span></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="section">
+                <h3>Summary</h3>
+                <div class="summary">{{ summary }}</div>
+            </div>
+        </div>
+        {% endif %}
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>
