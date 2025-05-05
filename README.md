@@ -18,5 +18,5 @@ A web-based application to extract keywords and summaries from PDF documents wit
 
 2. **Clone the repository:**
    ```bash
-   git clone https://github.com/rajdeep13-coder/PDF-Keyword-extractor.git
-   cd PDF-Keyword-extractor
+   git clone https://github.com/rajdeep13-coder/PDF_Keyword_extractor.git
+   cd PDF_Keyword_extractor
