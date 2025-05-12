@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash
 from werkzeug.utils import secure_filename
 import os
-from extractor.pdf_reader import PDFTextExtractor
+import fitz  
 from extractor.keyword_finder import KeywordProcessor
 import tempfile
 
@@ -12,6 +12,14 @@ ALLOWED_EXTENSIONS = {'pdf'}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def extract_text_from_pdf(pdf_path):
+    """Extract text from PDF using PyMuPDF."""
+    text = ""
+    with fitz.open(pdf_path) as doc:
+        for page in doc:
+            text += page.get_text()
+    return text
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -29,9 +37,7 @@ def index():
             file.save(filepath)
             try:
                 method = request.form.get('method', 'frequency')
-                use_ocr = 'ocr' in request.form
-                extractor = PDFTextExtractor()
-                text = extractor.extract_text(filepath, use_ocr=use_ocr)
+                text = extract_text_from_pdf(filepath)
                 processor = KeywordProcessor()
                 keywords = processor.get_keywords(text, method=method)
                 summary = processor.summarize_text(text)
@@ -46,6 +52,6 @@ def index():
                 flash(f'Error processing file: {str(e)}')
                 return render_template('index.html')
     return render_template('index.html')
-    
+
 if __name__ == '__main__':
     app.run(debug=True)
